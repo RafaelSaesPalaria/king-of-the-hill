@@ -1,4 +1,6 @@
-import { animate, resize } from "./assets/screen"
+import { Player } from "./assets/entities.js"
+import { animate, resize } from "./assets/screen.js"
+
 var content = {
     level: {
         canvas : document.querySelector('canvas#level'),
@@ -21,5 +23,7 @@ setInterval(() => {
     let entities = 
         [...content.entities.platforms,...content.entities.players]
     animate(entities, content.level.c)
-    
+
 },1000/content.entities.fps)
+
+content.entities.players.push(new Player(content.level.c, 100, 100, 20))
