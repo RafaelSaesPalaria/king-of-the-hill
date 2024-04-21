@@ -1,3 +1,4 @@
+import { animate, resize } from "./assets/screen"
 var content = {
     level: {
         canvas : document.querySelector('canvas#level'),
@@ -15,3 +16,10 @@ var content = {
 // SCREEN
 resize(content.level.canvas)
 window.addEventListener("resize",resize)
+
+setInterval(() => {
+    let entities = 
+        [...content.entities.platforms,...content.entities.players]
+    animate(entities, content.level.c)
+    
+},1000/content.entities.fps)
