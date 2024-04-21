@@ -1,3 +1,5 @@
+import { addKeyListener } from "./controls.js"
+
 export class Player {
     constructor(c, x, y, r) {
         this.c = c
@@ -9,11 +11,25 @@ export class Player {
         this.dx = 0
         this.dy = 0
 
+        this.up = false
+        this.left= false
+        this.down=false
+        this.right=false
 
+        this.addKey(this.up, 'KeyW', (direction) => { this.up = direction; });
+        this.addKey(this.left, 'KeyA', (direction) => { this.left = direction; });
+        this.addKey(this.down, 'KeyS', (direction) => { this.down = direction; });
+        this.addKey(this.right, 'KeyD', (direction) => { this.right = direction; });
 
     }
 
-
+    addKey(direction,code, callback) {
+        addKeyListener(this.c.canvas).subscribe((e) => {
+            if (e.code === code) {
+                callback(direction = e.type!=='keyup')
+            }
+        })
+    }
 
     /**
      * @Called // @Do //
@@ -31,7 +47,8 @@ export class Player {
 
     update(c) {
 
-
+        this.dy += (this.down - this.up)*this.f
+        this.dx += (this.right - this.left)*this.f
 
         this.y+=this.dy
         this.x+=this.dx
