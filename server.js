@@ -1,16 +1,18 @@
-const http = require('http')
 const ejs = require('ejs')
 const express =  require('express')
 const app = express()
+const ws = require('ws')
 
-http.createServer({port:'3000'}, () => {
-    console.log('Server Opened')
-})
+// WebSocket
+
+let wss = new ws.Server({port:3008})
+
+// Express
 
 app.set('view engine','ejs')
 app.use(express.static('./public'))
-app.listen('3000',() => {
-    console.log('Listening in the port 3000')
+app.listen('3009',() => {
+    console.log('Listening in the port 3009')
 })
 
 // Middleware
