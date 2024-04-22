@@ -8,7 +8,7 @@ http.createServer({port:'3000'}, () => {
 })
 
 app.set('view engine','ejs')
-app.set(express.static('./public/'))
+app.use(express.static('./public'))
 app.listen('3000',() => {
     console.log('Listening in the port 3000')
 })
