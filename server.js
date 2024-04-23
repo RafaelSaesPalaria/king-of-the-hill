@@ -5,7 +5,17 @@ const ws = require('ws')
 
 // WebSocket
 
+let connections = []
+
 let wss = new ws.Server({port:3008})
+wss.on('connection', (stream) => {
+
+    stream.on('message', (message) => {
+        console.log(message.toString())
+    })
+
+    connections.push(stream)
+})
 
 // Express
 
