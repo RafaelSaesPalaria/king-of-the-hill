@@ -16,6 +16,8 @@ let controls = {
     right : false
 }
 
+content.level.canvas.focus()
+
 /**
  * 
  * @param {CanvasRenderingContext2D} c 
@@ -54,10 +56,12 @@ wss.onopen = () => {
         addKey(controls.down, 'KeyS', (direction) => { controls.down = direction; });
         addKey(controls.right, 'KeyD', (direction) => { controls.right = direction; });
 
+        if (wss.readyState === WebSocket.OPEN) {
         wss.send(JSON.stringify(
             {'todo':'key-update',
             "dy-axis":(Number(controls.down) - Number(controls.up)),
             "dx-axis":(Number(controls.right) - Number(controls.left))}))
+        }
     })
 
     function addKey(direction,code, callback) {
