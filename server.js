@@ -17,8 +17,7 @@ wss.on('connection', (stream) => {
          20))
 
     stream.on('message', (message) => {
-        let body = message.toString()
-        console.log(body)
+        let body = JSON.parse(message.toString())
         if (body["todo"]==="key-update") {
             player.move(body["dx-axis"],body["dy-axis"])
             console.log(player)
@@ -30,7 +29,7 @@ wss.on('connection', (stream) => {
         "player":player})
 })
 
-setInterval(updatePlayers,100)
+setInterval(updatePlayers,10)
 function updatePlayers() {
     let players = []
     connections.forEach(con => {

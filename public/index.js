@@ -37,6 +37,10 @@ wss.onopen = () => {
     wss.onmessage = function(message) {
         let data = JSON.parse(message.data)
         if (data["todo"]==="render-players") {
+            content.level.c.clearRect(
+                0,0,
+                content.level.canvas.width,
+                content.level.canvas.height)
             data.players.forEach(player => {
                 drawCircle(player.x, player.y, player.r)
             });
@@ -52,14 +56,15 @@ wss.onopen = () => {
 
         wss.send(JSON.stringify(
             {'todo':'key-update',
-            "dy-axis":(controls.down-controls.up),
-            "dx-axis":(controls.right-controls.left)}))
+            "dy-axis":(Number(controls.down) - Number(controls.up)),
+            "dx-axis":(Number(controls.right) - Number(controls.left))}))
     })
 
     function addKey(direction,code, callback) {
         addKeyListener(content.level.canvas).subscribe((e) => {
             if (e.code === code) {
-                callback(direction = e.type!=='keycontrols.up')
+                console.log(e.type!=='keyup')
+                callback(direction = e.type!=='keyup')
             }
         })
     }
