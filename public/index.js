@@ -16,7 +16,30 @@ let controls = {
     right : false
 }
 
+/**
+ * 
+ * @param {CanvasRenderingContext2D} c 
+ * @param {*} x 
+ * @param {*} y 
+ * @param {*} r 
+ */
+function drawCircle(x,y,r) {
+    content.level.c.beginPath()
+    content.level.c.arc(x,y,r,0,Math.PI*2,false)
+    content.level.c.fillStyle = "red"
+    content.level.c.fill()
+    content.level.c.stroke()
+    content.level.c.closePath()
+}
+
 wss.onopen = () => {
+
+    wss.onmessage = function(message) {
+        let data = JSON.parse(message.data)
+        if (data["todo"]==="render-player") {
+            drawCircle(data.player.x, data.player.y, data.player.r)
+        }
+    }
 
     addKeyListener(content.level.canvas).subscribe((e) => {
         addKey(controls.up, 'KeyW', (direction) => { controls.up = direction; });
@@ -25,9 +48,9 @@ wss.onopen = () => {
         addKey(controls.right, 'KeyD', (direction) => { controls.right = direction; });
 
         wss.send(JSON.stringify(
-            {'todo':'key-controls.update',
-            "y-axis":(controls.down-controls.up),
-            "x-axis":(controls.right-controls.left)}))
+            {'todo':'key-update',
+            "dy-axis":(controls.down-controls.up),
+            "dx-axis":(controls.right-controls.left)}))
     })
 
     function addKey(direction,code, callback) {
