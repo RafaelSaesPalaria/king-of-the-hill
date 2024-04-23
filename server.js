@@ -8,15 +8,20 @@ let Player = require('./public/assets/entities.js')
 
 let connections = []
 
-let wss = new ws.Server({port:3008})
+let wss = new ws.Server({port:3007})
+
 wss.on('connection', (stream) => {
-    let player = (new Player(100,100,20))
+    let player = (new Player(
+        Math.floor(Math.random()*500),
+        Math.floor(Math.random()*500),
+         20))
 
     stream.on('message', (message) => {
         let body = message.toString()
         console.log(body)
         if (body["todo"]==="key-update") {
-            this.player.move(body["dx-axis"],body["dy-axis"])
+            player.move(body["dx-axis"],body["dy-axis"])
+            console.log(player)
         }
     })
 
@@ -27,11 +32,16 @@ wss.on('connection', (stream) => {
 
 setInterval(updatePlayers,100)
 function updatePlayers() {
+    let players = []
     connections.forEach(con => {
         con.player.update()
+        players.push(con.player)
+    })
+
+    connections.forEach(con => {
         con.stream.send(JSON.stringify({
-            "todo":"render-player",
-            "player":con.player}))
+            "todo":"render-players",
+            "players":players}))
     })
 }
 

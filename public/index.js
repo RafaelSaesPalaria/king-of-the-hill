@@ -1,4 +1,4 @@
-let wss = new WebSocket('ws://localhost:3008')
+let wss = new WebSocket('ws://localhost:3007')
 
 import { addKeyListener } from "./assets/controls.js"
 
@@ -36,8 +36,11 @@ wss.onopen = () => {
 
     wss.onmessage = function(message) {
         let data = JSON.parse(message.data)
-        if (data["todo"]==="render-player") {
-            drawCircle(data.player.x, data.player.y, data.player.r)
+        if (data["todo"]==="render-players") {
+            data.players.forEach(player => {
+                drawCircle(player.x, player.y, player.r)
+            });
+            
         }
     }
 
