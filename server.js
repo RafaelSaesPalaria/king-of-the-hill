@@ -14,17 +14,26 @@ let Player = require('./public/assets/entities.js')
 
 let connections = []
 
+
 let wss = new ws.Server(
     {port:server_data.socket_port})
+
 
 wss.on('connection', (stream) => {
     console.log('Someone has entered')
     
+    // Create Player
     let player = (new Player(
-        Math.floor(Math.random()*500),
-        Math.floor(Math.random()*500),
-         20))
+        Math.floor(50+(Math.random()*(1366-100))),
+        Math.floor(50+(Math.random()*(645-100))),
+        50))
 
+    // Join Player and Stream
+    let con = {
+        "stream":stream,
+        "player":player}
+    
+    // Receive message from client
     stream.on('message', (message) => {
         let body = JSON.parse(message.toString())
         if (body["todo"]==="key-update") {
@@ -32,9 +41,13 @@ wss.on('connection', (stream) => {
         }
     })
 
-    connections.push({
-        "stream":stream,
-        "player":player})
+    // End Stream when close
+    con.stream.on('close', () => {
+        connections.splice(con)
+    })
+
+    // Save Stream
+    connections.push(con)
 })
 
 setInterval(updatePlayers,10)
