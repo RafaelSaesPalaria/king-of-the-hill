@@ -8,7 +8,7 @@ let server_data = {
     socket_port: 3008
 }
 
-let Player = require('./public/assets/entities.js')
+let Player = require('./entities.js')
 
 // WebSocket
 
