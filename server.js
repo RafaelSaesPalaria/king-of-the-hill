@@ -3,14 +3,23 @@ const express =  require('express')
 const app = express()
 const ws = require('ws')
 
+let server_data = {
+    server_port: 3010,
+    socket_port: 3008
+}
+
 let Player = require('./public/assets/entities.js')
+
 // WebSocket
 
 let connections = []
 
-let wss = new ws.Server({port:3007})
+let wss = new ws.Server(
+    {port:server_data.socket_port})
 
 wss.on('connection', (stream) => {
+    console.log('Someone has entered')
+    
     let player = (new Player(
         Math.floor(Math.random()*500),
         Math.floor(Math.random()*500),
@@ -20,7 +29,6 @@ wss.on('connection', (stream) => {
         let body = JSON.parse(message.toString())
         if (body["todo"]==="key-update") {
             player.move(body["dx-axis"],body["dy-axis"])
-            console.log(player)
         }
     })
 
@@ -48,14 +56,14 @@ function updatePlayers() {
 
 app.set('view engine','ejs')
 app.use(express.static('./public'))
-app.listen('3009',() => {
-    console.log('Listening in the port 3009')
+app.listen(server_data.server_port,() => {
+    console.log('Listening in the port',server_data.server_port)
 })
 
 // Middleware
 
 app.get('/', (req, res) => {
-    res.render('./index.ejs')
+    res.render('./index.ejs',{data: {server_data}})
 })
 
 app.use((req, res) => {

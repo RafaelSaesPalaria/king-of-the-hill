@@ -1,5 +1,5 @@
 let ip = window.location.href.replace('http://','').split(':')
-let wss = new WebSocket('ws://'+ip[0]+':3007')
+let wss = new WebSocket('ws://'+ip[0]+':3008')
 
 import { addKeyListener } from "./assets/controls.js"
 
@@ -50,26 +50,22 @@ wss.onopen = () => {
             
         }
     }
-
-    addKeyListener(content.level.canvas).subscribe((e) => {
-        addKey(controls.up, 'KeyW', (direction) => { controls.up = direction; });
-        addKey(controls.left, 'KeyA', (direction) => { controls.left = direction; });
-        addKey(controls.down, 'KeyS', (direction) => { controls.down = direction; });
-        addKey(controls.right, 'KeyD', (direction) => { controls.right = direction; });
-
-        if (wss.readyState === WebSocket.OPEN) {
-        wss.send(JSON.stringify(
-            {'todo':'key-update',
-            "dy-axis":(Number(controls.down) - Number(controls.up)),
-            "dx-axis":(Number(controls.right) - Number(controls.left))}))
-        }
-    })
+    addKey(controls.up, 'KeyW', (direction) => { controls.up = direction; });
+    addKey(controls.left, 'KeyA', (direction) => { controls.left = direction; });
+    addKey(controls.down, 'KeyS', (direction) => { controls.down = direction; });
+    addKey(controls.right, 'KeyD', (direction) => { controls.right = direction; });
 
     function addKey(direction,code, callback) {
         addKeyListener(content.level.canvas).subscribe((e) => {
             if (e.code === code) {
-                console.log(e.type!=='keyup')
                 callback(direction = e.type!=='keyup')
+                if (wss.readyState === WebSocket.OPEN) {
+                    console.log('Sending')
+                    wss.send(JSON.stringify(
+                        {'todo':'key-update',
+                        "dy-axis":(Number(controls.down) - Number(controls.up)),
+                        "dx-axis":(Number(controls.right) - Number(controls.left))}))
+                    }
             }
         })
     }
