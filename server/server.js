@@ -32,7 +32,10 @@ wss.on('connection', (stream) => {
         "stream":stream,
         "player":player}
     
-    // Receive message from client
+    /**
+     * @Called When a connection is established
+     * @Do set a listener to the stream to update the player moviment and update the other streams
+     */
     stream.on('message', (message) => {
         let body = JSON.parse(message.toString())
         if (body["todo"]==="key-update") {
@@ -41,15 +44,22 @@ wss.on('connection', (stream) => {
         sendPlayers()
     })
 
-    // End Stream when close
+    /**
+     * @Called When a connection is established
+     * @Do set a listener in the stream to remove the stream when closed / not working
+     */
     con.stream.on('close', () => {
-        connections.splice(con)
+        connections.splice(con) // ERROR/TODO: is removing all the connections
     })
 
     // Save Stream
     connections.push(con)
 })
 
+/**
+ * @Called by itself
+ * @Do Update is x,y based on its dx, dy
+ */
 setInterval(updatePlayers,10)
 function updatePlayers() {
     connections.forEach(con => {
@@ -57,6 +67,10 @@ function updatePlayers() {
     })
 }
 
+/**
+ * @Called When a player send a message to the server (player moves)
+ * @Do Send the all players x,y,xd,yd to all connections 
+ */
 function sendPlayers() {
     let players = []
     connections.forEach(con => {
@@ -87,5 +101,5 @@ app.get('/', (req, res) => {
 })
 
 app.use((req, res) => {
-    res.status(404).render('./index.ejs')
+    res.status(404).render('./index.ejs',{data: {server_data}})
 })
