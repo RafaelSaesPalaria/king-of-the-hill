@@ -7,6 +7,9 @@ var content = {
     level: {
         canvas : document.querySelector('canvas#level'),
         c : document.querySelector('canvas#level').getContext("2d")
+    },
+    entities: {
+        players: []
     }
 }
 
@@ -35,20 +38,29 @@ function drawCircle(x,y,r) {
     content.level.c.closePath()
 }
 
+setInterval(updatePlayers, 10)
+function updatePlayers() {
+    content.level.c.clearRect(
+        0,0,
+        content.level.canvas.width,
+        content.level.canvas.height)
+    content.entities.players.forEach(player => {
+
+        //Player Update
+        player.y+=player.dy*3
+        player.x+=player.dx*3
+
+        drawCircle(player.x, player.y, player.r)
+    });
+}
+
 wss.onopen = () => {
 
     wss.onmessage = function(message) {
         let data = JSON.parse(message.data)
         console.log(data["players"][0])
         if (data["todo"]==="render-players") {
-            content.level.c.clearRect(
-                0,0,
-                content.level.canvas.width,
-                content.level.canvas.height)
-            data.players.forEach(player => {
-                drawCircle(player.x, player.y, player.r)
-            });
-            
+            content.entities.players = data.players
         }
     }
     addKey(controls.up, 'KeyW', (direction) => { controls.up = direction; });
