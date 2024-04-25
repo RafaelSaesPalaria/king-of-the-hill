@@ -39,6 +39,7 @@ wss.onopen = () => {
 
     wss.onmessage = function(message) {
         let data = JSON.parse(message.data)
+        console.log(data["players"][0])
         if (data["todo"]==="render-players") {
             content.level.c.clearRect(
                 0,0,

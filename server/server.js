@@ -14,7 +14,6 @@ let Player = require('./entities.js')
 
 let connections = []
 
-
 let wss = new ws.Server(
     {port:server_data.socket_port})
 
@@ -39,6 +38,7 @@ wss.on('connection', (stream) => {
         if (body["todo"]==="key-update") {
             player.move(body["dx-axis"],body["dy-axis"])
         }
+        sendPlayers()
     })
 
     // End Stream when close
@@ -52,11 +52,18 @@ wss.on('connection', (stream) => {
 
 setInterval(updatePlayers,10)
 function updatePlayers() {
-    let players = []
     connections.forEach(con => {
         con.player.update()
+    })
+}
+
+function sendPlayers() {
+    let players = []
+    connections.forEach(con => {
         players.push(con.player)
     })
+
+    console.log(players)
 
     connections.forEach(con => {
         con.stream.send(JSON.stringify({
