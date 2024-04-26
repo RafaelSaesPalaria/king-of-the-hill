@@ -46,10 +46,10 @@ wss.on('connection', (stream) => {
 
     /**
      * @Called When a connection is established
-     * @Do set a listener in the stream to remove the stream when closed / not working
+     * @Do set a listener in the stream to remove the stream when closed
      */
     con.stream.on('close', () => {
-        connections.splice(con) // ERROR/TODO: is removing all the connections
+        connections = connections.filter(item => item.stream!==con.stream)
     })
 
     // Save Stream
