@@ -29,10 +29,10 @@ content.level.canvas.focus()
  * @param {*} y 
  * @param {*} r 
  */
-function drawCircle(x,y,r) {
+function drawCircle(x,y,r,c="blue") {
     content.level.c.beginPath()
     content.level.c.arc(x,y,r,0,Math.PI*2,false)
-    content.level.c.fillStyle = "red"
+    content.level.c.fillStyle = `${c}`
     content.level.c.fill()
     content.level.c.stroke()
     content.level.c.closePath()
@@ -52,7 +52,7 @@ function updatePlayers() {
             player.y+=player.dy*3*ms
             player.x+=player.dx*3*ms
 
-        drawCircle(player.x, player.y, player.r)
+        drawCircle(player.x, player.y, player.r, player.color)
     });
     lastUpdate = Date.now()
 }
@@ -63,7 +63,12 @@ wss.onopen = () => {
         let data = JSON.parse(message.data)
         console.log(data)
         if (data["todo"]==="render-players") {
+
+            data.me.color = "red"
+
             content.entities.players = data.players
+            content.entities.players.push(data.me)
+            
             lastUpdate = data.timestamp
             updatePlayers()
             lastUpdate = Date.now()

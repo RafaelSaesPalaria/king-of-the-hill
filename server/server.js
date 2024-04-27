@@ -80,7 +80,8 @@ function sendPlayers() {
         con.stream.send(JSON.stringify({
             "todo":"render-players",
             "timestamp":Date.now(),
-            "players":players}))
+            "me":con.player,
+            "players":players.filter(player => player!==con.player)}))
     })
 }
 
