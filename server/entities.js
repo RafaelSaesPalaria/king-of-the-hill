@@ -23,8 +23,8 @@ module.exports = class Player {
      * @Called -----------------------------
      * @Do Change the position
      */
-    update() {
-        this.y+=this.dy*3
-        this.x+=this.dx*3
+    update(ms) {
+        this.y+=this.dy*3*ms
+        this.x+=this.dx*3*ms
     }
 }

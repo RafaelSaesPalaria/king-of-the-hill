@@ -38,7 +38,8 @@ function drawCircle(x,y,r) {
     content.level.c.closePath()
 }
 
-setInterval(updatePlayers, 10)
+let lastUpdate = Date.now()
+setInterval(updatePlayers,10)
 function updatePlayers() {
     content.level.c.clearRect(
         0,0,
@@ -47,20 +48,25 @@ function updatePlayers() {
     content.entities.players.forEach(player => {
 
         //Player Update
-        player.y+=player.dy*3
-        player.x+=player.dx*3
+        let ms = (Date.now() - lastUpdate)/10
+            player.y+=player.dy*3*ms
+            player.x+=player.dx*3*ms
 
         drawCircle(player.x, player.y, player.r)
     });
+    lastUpdate = Date.now()
 }
 
 wss.onopen = () => {
 
     wss.onmessage = function(message) {
         let data = JSON.parse(message.data)
-        console.log(data["players"][0])
+        console.log(data)
         if (data["todo"]==="render-players") {
             content.entities.players = data.players
+            lastUpdate = data.timestamp
+            updatePlayers()
+            lastUpdate = Date.now()
         }
     }
     addKey(controls.up, 'KeyW', (direction) => { controls.up = direction; });
