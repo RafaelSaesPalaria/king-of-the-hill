@@ -59,6 +59,8 @@ function updatePlayers() {
 
 wss.onopen = () => {
 
+    wss.send(JSON.stringify({'todo':'render'}))
+
     wss.onmessage = function(message) {
         let data = JSON.parse(message.data)
         console.log(data)
@@ -68,7 +70,7 @@ wss.onopen = () => {
 
             content.entities.players = data.players
             content.entities.players.push(data.me)
-            
+
             lastUpdate = data.timestamp
             updatePlayers()
             lastUpdate = Date.now()
