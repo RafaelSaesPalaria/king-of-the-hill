@@ -13,6 +13,8 @@ let Player = require('./entities.js')
 // WebSocket
 
 let connections = []
+let players = []
+
 let wss = new ws.Server(
     {port:server_data.socket_port})
 
@@ -21,6 +23,7 @@ let lastUpdate = Date.now()
 
 wss.on('connection', (stream) => {
     console.log('Someone has entered')
+    
     
     // Create Player
     let player = (new Player(
@@ -32,6 +35,11 @@ wss.on('connection', (stream) => {
     let con = {
         "stream":stream,
         "player":player}
+
+    players = []
+    connections.forEach(con => {
+        players.push(con.player)
+    })
     
     /**
      * @Called When a connection is established
@@ -40,7 +48,7 @@ wss.on('connection', (stream) => {
     stream.on('message', (message) => {
         let body = JSON.parse(message.toString())
         if (body["todo"]==="key-update") {
-            player.move(body["dx-axis"],body["dy-axis"])
+            con.player.changeDir(body["dx-axis"],body["dy-axis"])
         }
         updatePlayers()
         sendPlayers()
@@ -53,6 +61,10 @@ wss.on('connection', (stream) => {
      */
     con.stream.on('close', () => {
         connections = connections.filter(item => item.stream!==con.stream)
+        players = []
+        connections.forEach(con => {
+            players.push(con.player)
+        })
     })
 
     // Save Stream
@@ -61,21 +73,28 @@ wss.on('connection', (stream) => {
 
 function updatePlayers() {
     let ms = Date.now() - lastUpdate
+
+    let playersC = Object.assign([],players)
+
+    playersC.forEach(pi => {
+        playersC.forEach(pe => {
+            if (pi!==pe) {
+                pi.checkCollision(pe)
+            }
+        })
+        playersC.shift()
+    })
+
     connections.forEach(con => {
         con.player.update(ms/10)
     })
 }
 
 /**
- * @Called When a player send a message to the server (player moves)
+ * @Called When a player send a message to the server (player changeDirs)
  * @Do Send the all players x,y,xd,yd to all connections 
  */
 function sendPlayers() {
-    let players = []
-    connections.forEach(con => {
-        players.push(con.player)
-    })
-
     connections.forEach(con => {
         con.stream.send(JSON.stringify({
             "todo":"render-players",

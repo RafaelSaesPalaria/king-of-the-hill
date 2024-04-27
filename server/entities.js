@@ -14,9 +14,19 @@ module.exports = class Player {
      * @param {Number} dx 
      * @param {Number} dy 
      */
-    move(dx, dy) {
+    changeDir(dx, dy) {
         this.dx+= dx*0.03
         this.dy+= dy*0.03
+    }
+
+    /**
+     * @param {*} a Another player 
+     */
+    checkCollision(a) {
+        if (this.x - a.x<this.r+a.r &
+            this.y - a.y<this.r+a.r) {
+            console.log('Collision')
+        }
     }
 
     /**
@@ -24,6 +34,7 @@ module.exports = class Player {
      * @Do Change the position
      */
     update(ms) {
+
         this.y+=this.dy*3*ms
         this.x+=this.dx*3*ms
     }
