@@ -1,5 +1,5 @@
 let ip = window.location.href.replace('http://','').split(':')
-let wss = new WebSocket('ws://'+ip[0]+':3008')
+let wss = new WebSocket('ws://'+ip[0]+':3009')
 
 import { addKeyListener } from "./assets/controls.js"
 
@@ -70,6 +70,8 @@ wss.onopen = () => {
 
             content.entities.players = data.players
             content.entities.players.push(data.me)
+
+            console.log(data.me.checkCollide)
 
             lastUpdate = data.timestamp
             updatePlayers()

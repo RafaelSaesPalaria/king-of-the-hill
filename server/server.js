@@ -4,8 +4,8 @@ const app = express()
 const ws = require('ws')
 
 let server_data = {
-    server_port: 3010,
-    socket_port: 3008
+    server_port: 3011,
+    socket_port: 3009
 }
 
 let Player = require('./entities.js')
@@ -36,11 +36,6 @@ wss.on('connection', (stream) => {
         "stream":stream,
         "player":player}
 
-    players = []
-    connections.forEach(con => {
-        players.push(con.player)
-    })
-    
     /**
      * @Called When a connection is established
      * @Do set a listener to the stream to update the player moviment and update the other streams
@@ -50,6 +45,7 @@ wss.on('connection', (stream) => {
         if (body["todo"]==="key-update") {
             con.player.changeDir(body["dx-axis"],body["dy-axis"])
         }
+
         updatePlayers()
         sendPlayers()
         lastUpdate = Date.now()
@@ -69,6 +65,12 @@ wss.on('connection', (stream) => {
 
     // Save Stream
     connections.push(con)
+
+    players = []
+    connections.forEach(con => {
+        players.push(con.player)
+    })
+
 })
 
 function updatePlayers() {
@@ -79,7 +81,9 @@ function updatePlayers() {
     playersC.forEach(pi => {
         playersC.forEach(pe => {
             if (pi!==pe) {
-                pi.checkCollision(pe)
+                if (pi.checkCollision(pe)) {
+                    pi.collide(pe)
+                }
             }
         })
         playersC.shift()

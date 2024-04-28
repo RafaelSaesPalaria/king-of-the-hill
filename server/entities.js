@@ -19,14 +19,34 @@ module.exports = class Player {
         this.dy+= dy*0.03
     }
 
+    distance(x,y,x2,y2) {
+        let xDist = x2-x
+        let yDist = y2-y
+
+        return Math.sqrt(
+            Math.pow(xDist,2) +
+            Math.pow(yDist,2)
+        )
+    }
+
     /**
      * @param {*} a Another player 
      */
     checkCollision(a) {
-        if (this.x - a.x<this.r+a.r &
-            this.y - a.y<this.r+a.r) {
-            console.log('Collision')
-        }
+        return (this.distance(this.x,this.y,a.x,a.y) - (this.r + a.r)<0)
+    }
+
+    /**
+     * 
+     * @param {*} a Another player 
+     */
+    collide(a) {
+        console.log('a')
+        this.dx = -this.dx
+        this.dy = -this.dy
+
+        a.dx = -a.dx
+        a.dy = -a.dy
     }
 
     /**
