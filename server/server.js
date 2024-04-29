@@ -4,7 +4,7 @@ const app = express()
 const ws = require('ws')
 
 let server_data = {
-    server_port: 3011,
+    server_port: 3000,
     socket_port: 3009
 }
 

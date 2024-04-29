@@ -1,5 +1,5 @@
-let ip = window.location.href.replace('http://','').split(':')
-let wss = new WebSocket('ws://'+ip[0]+':3009')
+let ip = window.location.href.replace('http://','').split(':')[0]
+let wss = new WebSocket('ws://'+ip+':'+socket_port)
 
 import { addKeyListener } from "./assets/controls.js"
 

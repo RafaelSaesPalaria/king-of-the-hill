@@ -7,7 +7,11 @@
     <title>King of the Hill</title>
 </head>
 <body>
+    <h1></h1>
     <canvas tabindex='1' id="level" width="1366" height="645"></canvas>
     <script src="index.js" type="module" defer></script>
+    <script>
+        let socket_port = <%=data.server_data.socket_port%>
+    </script>
 </body>
 </html>
