@@ -1,11 +1,8 @@
 const ws = require('ws')
 
-require('./express.js')
+let server_data = require('./express.js')
 
-let server_data = {
-    server_port: 3000,
-    socket_port: 3009
-}
+
 
 let Player = require('./entities.js')
 

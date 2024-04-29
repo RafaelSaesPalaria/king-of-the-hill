@@ -2,7 +2,7 @@ const ejs = require('ejs')
 const express =  require('express')
 const app = express()
 
-let server_data = {
+module.exports = server_data = {
     server_port: 3000,
     socket_port: 3009
 }
