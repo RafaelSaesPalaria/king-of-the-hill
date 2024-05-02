@@ -38,6 +38,24 @@ function drawCircle(x,y,r,c="blue") {
     content.level.c.closePath()
 }
 
+function distance(x,y,x2,y2) {
+    let xDist = x2-x
+    let yDist = y2-y
+
+    return Math.sqrt(
+        Math.pow(xDist,2) +
+        Math.pow(yDist,2)
+    )
+}    
+
+function checkCollision(p1,p2) {
+    if (p1!==p2) {
+        return (distance(p1.x,p1.y,p2.x,p2.y) -
+                 (p1.r + p2.r)<0)
+    }
+    return false
+}
+
 let lastUpdate = Date.now()
 setInterval(updatePlayers,10)
 function updatePlayers() {
@@ -45,6 +63,15 @@ function updatePlayers() {
         0,0,
         content.level.canvas.width,
         content.level.canvas.height)
+
+    content.entities.players.forEach(player => {
+        if (checkCollision(content.entities.players[0], player)) {
+            if (wss) {
+                wss.send(JSON.stringify({'todo':'render'}))
+            }
+        }
+    })
+
     content.entities.players.forEach(player => {
 
         //Player Update
@@ -68,12 +95,13 @@ wss.onopen = () => {
 
             data.me.color = "red"
 
-            content.entities.players = data.players
+            content.entities.players = []
             content.entities.players.push(data.me)
+            content.entities.players.push(...data.players)
 
-            console.log(data.me.checkCollide)
+            console.log(content.entities.players)
 
-            lastUpdate = data.timestamp
+            lastUpdate = data.timestamp 
             updatePlayers()
             lastUpdate = Date.now()
         }

@@ -41,7 +41,6 @@ module.exports = class Player {
      * @param {*} a Another player 
      */
     collide(a) {
-        console.log('a')
         this.dx = -this.dx
         this.dy = -this.dy
 
