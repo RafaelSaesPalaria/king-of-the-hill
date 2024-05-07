@@ -2,8 +2,6 @@ const ws = require('ws')
 
 let server_data = require('./express.js')
 
-
-
 let Player = require('./entities.js')
 
 // WebSocket

@@ -3,8 +3,8 @@ const express =  require('express')
 const app = express()
 
 module.exports = server_data = {
-    server_port: 3000,
-    socket_port: 3009
+    server_port: 3001,
+    socket_port: 3008
 }
 
 app.set('view engine','ejs')

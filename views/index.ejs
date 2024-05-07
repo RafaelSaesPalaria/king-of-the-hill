@@ -9,6 +9,10 @@
 <body>
     <canvas tabindex='1' id="level" width="1366" height="645"></canvas>
     <script src="index.js" type="module" defer></script>
+    <div id="end-panel">
+        <h1>You lost</h1>
+        <a href="#">Continue</a>
+    </div>
     <script>
         let socket_port = <%=data.server_data.socket_port%>
     </script>
