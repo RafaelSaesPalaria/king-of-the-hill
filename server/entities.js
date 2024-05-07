@@ -48,13 +48,23 @@ module.exports = class Player {
         a.dy = -a.dy
     }
 
+    isOutOfBorders() {
+        return (
+            (this.x + this.r > 1366|| this.x + this.r < 0) ||
+            (this.y + this.r > 645  || this.y + this.r < 0))
+    }
+
     /**
      * @Called -----------------------------
      * @Do Change the position
      */
     update(ms) {
-
         this.y+=this.dy*3*ms
         this.x+=this.dx*3*ms
+
+        if (this.isOutOfBorders()) {
+            console.log(this+'is out of borders')
+        }
+
     }
 }
