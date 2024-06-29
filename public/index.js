@@ -76,8 +76,8 @@ function updatePlayers() {
 
         //Player Update
         let ms = (Date.now() - lastUpdate)/10
-            player.y+=player.dy*3*ms
-            player.x+=player.dx*3*ms
+            player.y+=player.dy*3*(ms)
+            player.x+=player.dx*3*(ms)
 
         drawCircle(player.x, player.y, player.r, player.color)
     });
