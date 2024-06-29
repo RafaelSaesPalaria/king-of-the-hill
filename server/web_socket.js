@@ -1,6 +1,8 @@
 const ws = require('ws')
+const fs = require('fs')
 
-let server_data = require('./express.js')
+let server_data = fs.readFileSync('server/server_config.json','utf-8')
+server_data = JSON.parse(server_data)
 
 let Player = require('./entities.js')
 
