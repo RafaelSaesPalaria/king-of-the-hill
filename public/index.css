@@ -13,6 +13,7 @@ canvas {
 
 #end-panel {
     display: none;
+
     position: absolute;
     top: 50%;
     left: 50%;
@@ -21,7 +22,10 @@ canvas {
 
     width: 500px;
     height: 250px;
+
     border: 1px solid black;
+
+    background-color: white;
 }
 
 #end-panel h1 {
