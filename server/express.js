@@ -11,6 +11,7 @@ app.set('view engine','ejs')
 app.use(express.static('./public'))
 app.listen(server_data.server_port,() => {
     console.log('Listening in the port',server_data.server_port)
+    console.log('http://localhost:'+server_data.server_port)
 })
 
 // Middleware
