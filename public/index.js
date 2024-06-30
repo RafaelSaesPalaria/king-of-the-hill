@@ -1,7 +1,7 @@
 let ip = window.location.href.replace('http://','').split(':')[0]
 let wss = new WebSocket('ws://'+ip+':'+socket_port)
 
-import { addKeyListener } from "./assets/controls.js"
+import { addKeyListener, moviment } from "./assets/controls.js"
 import { drawCircle, checkCollision } from "./assets/utils.js"
 
 var content = {
@@ -12,13 +12,6 @@ var content = {
     entities: {
         players: []
     }
-}
-
-let controls = {
-    up : false,
-    left : false,
-    down : false,
-    right : false
 }
 
 content.level.canvas.focus()
@@ -71,25 +64,9 @@ wss.onopen = () => {
             lastUpdate = data.timestamp 
             updatePlayers()
             lastUpdate = Date.now()
+
+        
         }
     }
-    addKey(controls.up, 'KeyW', (direction) => { controls.up = direction; });
-    addKey(controls.left, 'KeyA', (direction) => { controls.left = direction; });
-    addKey(controls.down, 'KeyS', (direction) => { controls.down = direction; });
-    addKey(controls.right, 'KeyD', (direction) => { controls.right = direction; });
-
-    function addKey(direction,code, callback) {
-        addKeyListener(content.level.canvas).subscribe((e) => {
-            if (e.code === code) {
-                callback(direction = e.type!=='keyup')
-                if (wss.readyState === WebSocket.OPEN) {
-                    console.log('Sending')
-                    wss.send(JSON.stringify(
-                        {'todo':'key-update',
-                        "dy-axis":(Number(controls.down) - Number(controls.up)),
-                        "dx-axis":(Number(controls.right) - Number(controls.left))}))
-                    }
-            }
-        })
-    }
+    moviment(content.level.canvas,wss)
 }
