@@ -6,4 +6,6 @@ let ws = require('./web_socket')
 ws.setData(server_data)
 ws.load()
 
-require('./express')
+let ex = require('./express')
+ex.setData(server_data)
+ex.load()
