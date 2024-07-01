@@ -50,7 +50,6 @@ wss.onopen = () => {
 
     wss.onmessage = function(message) {
         let data = JSON.parse(message.data)
-        console.log(data)
         if (data["todo"]==="render-players") {
 
             data.me.color = "red"
@@ -58,8 +57,6 @@ wss.onopen = () => {
             content.entities.players = []
             content.entities.players.push(data.me)
             content.entities.players.push(...data.players)
-
-            console.log(content.entities.players)
 
             lastUpdate = data.timestamp 
             updatePlayers()
