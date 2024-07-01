@@ -18,11 +18,11 @@ function load() {
     // Middleware
 
     app.get('/', (req, res) => {
-        res.render('./index.ejs',{data: {server_data}})
+        res.render('../public/views/index.ejs',{data: {server_data}})
     })
 
     app.use((req, res) => {
-        res.status(404).render('./index.ejs',{data: {server_data}})
+        res.status(404).render('../public/views/index.ejs',{data: {server_data}})
     })
 }
 
