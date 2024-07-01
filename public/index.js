@@ -1,7 +1,7 @@
 let ip = window.location.href.replace('http://','').split(':')[0]
 let wss = new WebSocket('ws://'+ip+':'+socket_port)
 
-import { addKeyListener, moviment } from "./assets/controls.js"
+import { moviment } from "./assets/controls.js"
 import { drawCircle, checkCollision } from "./assets/utils.js"
 
 var content = {

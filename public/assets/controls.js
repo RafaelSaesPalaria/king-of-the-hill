@@ -9,7 +9,7 @@ let controls = {
  * 
  * @param {HTMLCanvasElement} canvas
  */
-export function addKeyListener(canvas) {
+function addKeyListener(canvas) {
     let observers = []
     canvas.addEventListener("keydown",notifyAll)
     canvas.addEventListener("keypress",notifyAll)
