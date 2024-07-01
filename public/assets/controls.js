@@ -36,10 +36,9 @@ function addKeyListener(canvas) {
 }
 
 export function moviment(canvas,wss) {
-    addKey(controls.direction.up, controls.keys.up, (direction) => { controls.direction.up = direction; });
-    addKey(controls.direction.left, controls.keys.left, (direction) => { controls.direction.left = direction; });
-    addKey(controls.direction.down, controls.keys.down, (direction) => { controls.direction.down = direction; });
-    addKey(controls.direction.right, controls.keys.right, (direction) => { controls.direction.right = direction; });
+    for (let dir in controls.direction) {
+        addKey(controls.direction[dir], controls.keys[dir], (direction) => { controls.direction[dir] = direction; });
+    }
 
     function addKey(direction, code, callback) {
         addKeyListener(canvas).subscribe((e) => {
