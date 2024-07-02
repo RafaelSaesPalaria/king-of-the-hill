@@ -41,11 +41,36 @@ module.exports = class Player {
      * @param {*} a Another player 
      */
     collide(a) {
-        this.dx = -this.dx
-        this.dy = -this.dy
+        let xVelocityDiff = this.dx - a.dx
+        let yVelocityDiff = this.dy - a.dy
+    
+        let xDist = a.x - this.x
+        let yDist = a.y - this.y
+    
+        if (((xVelocityDiff * xDist) + (yVelocityDiff * yDist)) >0) {
+            //Grab the angle between the two colliding thiss
+            let angle = -Math.atan2(a.y - this.y, a.x - this.x)
+    
+            let m1= this.m
+            let m2= a.m
+    
+            let u1 = this.rotate(this.dx, this.dy,angle)
+            let u2 = this.rotate(a.dx, a.dy,angle)
+    
 
-        a.dx = -a.dx
-        a.dy = -a.dy
+            let v1 = {x: (m1-m2)*u1.x/(m1+m2) + (2*m2*u2.x)/(m1+m2),y:u1.y}
+            let v2 = {x: (m1-m2)*u2.x/(m1+m2) + (2*m2*u1.x)/(m1+m2),y:u2.y}
+    
+            let vfinal1 = this.rotate(v1.x, v1.y, -angle)
+            let vfinal2 = this.rotate(v2.x, v2.y, -angle)
+    
+            this.dx = vfinal1.x
+            this.dy = vfinal1.y
+    
+            a.dx = vfinal2.x
+            a.dy = vfinal2.y
+
+        }
     }
 
     isOutOfBorders() {
