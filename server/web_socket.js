@@ -83,6 +83,7 @@ function load() {
                 if (pi!==pe) {
                     if (pi.checkCollision(pe)) {
                         pi.collide(pe)
+                        console.log(pi+' is colliding with '+pe)
                     }
                 }
             })

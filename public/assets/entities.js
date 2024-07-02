@@ -6,6 +6,8 @@ module.exports = class Player {
 
         this.dx = 0
         this.dy = 0
+        this.m = 1    /* Mass */
+        this.f = 0.03 /* Friction */
     }
 
     /**
@@ -15,8 +17,8 @@ module.exports = class Player {
      * @param {Number} dy 
      */
     changeDir(dx, dy) {
-        this.dx+= dx*0.03
-        this.dy+= dy*0.03
+        this.dx+= dx*this.f
+        this.dy+= dy*this.f
     }
 
     distance(x,y,x2,y2) {
@@ -36,16 +38,54 @@ module.exports = class Player {
         return (this.distance(this.x,this.y,a.x,a.y) - (this.r + a.r)<0)
     }
 
+   rotate(x, y, angle) {
+        let rotatedVelocities = {
+            x:x * Math.cos(angle) -y * Math.sin(angle),
+            y:y * Math.sin(angle) -y * Math.cos(angle)
+        }
+        return rotatedVelocities
+    }
+
     /**
      * 
      * @param {*} a Another player 
      */
     collide(a) {
-        this.dx = -this.dx
-        this.dy = -this.dy
+        let xVelocityDiff = this.dx - a.dx
+        let yVelocityDiff = this.dy - a.dy
+    
+        let xDist = a.x - this.x
+        let yDist = a.y - this.y
+    
+        if (((xVelocityDiff * xDist) + (yVelocityDiff * yDist)) >0) {
+            //Grab the angle between the two colliding thiss
+            let angle = -Math.atan2(a.y - this.y, a.x - this.x)
+    
+            let m1= this.m
+            let m2= a.m
+    
+            let u1 = this.rotate(this.dx, this.dy,angle)
+            let u2 = this.rotate(a.dx, a.dy,angle)
+    
+            /*let v1 = {x: u1.x * (m1 - m2) /(m1+m2) + u2.x * 2 * m2 / (m1+m2), y: u1.y}
+            let v2 = {x: u2.x * (m1 - m2) /(m1+m2) + u1.x * 2 * m2 / (m1+m2), y: u2.y}*/
+    
+    
+            let v1 = {x: (m1-m2)*u1.x/(m1+m2) + (2*m2*u2.x)/(m1+m2),y:u1.y}
+            let v2 = {x: (m1-m2)*u2.x/(m1+m2) + (2*m2*u1.x)/(m1+m2),y:u2.y}
+    
+            let vfinal1 = this.rotate(v1.x, v1.y, -angle)
+            let vfinal2 = this.rotate(v2.x, v2.y, -angle)
+    
+            this.dx = vfinal1.x
+            this.dy = vfinal1.y
+    
+            a.dx = vfinal2.x
+            a.dy = vfinal2.y
 
-        a.dx = -a.dx
-        a.dy = -a.dy
+            console.log(a.dx)
+            console.log(a.dy)
+        }
     }
 
     isOutOfBorders() {
