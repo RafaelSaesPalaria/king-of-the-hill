@@ -17,8 +17,9 @@ let controls = {
  * 
  * @param {HTMLCanvasElement} canvas
  */
+let observers = []
 function addKeyListener(canvas) {
-    let observers = []
+    
     canvas.addEventListener("keydown",notifyAll)
     canvas.addEventListener("keypress",notifyAll)
     canvas.addEventListener("keyup",notifyAll)
@@ -35,6 +36,15 @@ function addKeyListener(canvas) {
     return {subscribe,notifyAll};
 }
 
+function key_update(wss) {
+    if (wss.readyState === WebSocket.OPEN) {
+        wss.send(JSON.stringify(
+            {'todo':'key-update',
+            "dy-axis":(Number(controls.direction.down) - Number(controls.direction.up)),
+            "dx-axis":(Number(controls.direction.right) - Number(controls.direction.left))}))
+     }
+}
+
 export function moviment(canvas,wss) {
     for (let dir in controls.direction) {
         addKey(controls.direction[dir], controls.keys[dir], (direction) => { controls.direction[dir] = direction; });
@@ -44,12 +54,7 @@ export function moviment(canvas,wss) {
         addKeyListener(canvas).subscribe((e) => {
             if (e.code === code) {
                 callback(direction = e.type!=='keyup')
-                if (wss.readyState === WebSocket.OPEN) {
-                    wss.send(JSON.stringify(
-                        {'todo':'key-update',
-                        "dy-axis":(Number(controls.direction.down) - Number(controls.direction.up)),
-                        "dx-axis":(Number(controls.direction.right) - Number(controls.direction.left))}))
-                    }
+                key_update(wss)
             }
         })
     }

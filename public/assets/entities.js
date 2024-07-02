@@ -6,6 +6,8 @@ module.exports = class Player {
 
         this.dx = 0
         this.dy = 0
+        this.m = 1    /* Mass */
+        this.f = 0.03 /* Friction */
     }
 
     /**
@@ -15,8 +17,8 @@ module.exports = class Player {
      * @param {Number} dy 
      */
     changeDir(dx, dy) {
-        this.dx+= dx*0.03
-        this.dy+= dy*0.03
+        this.dx+= dx*this.f
+        this.dy+= dy*this.f
     }
 
     distance(x,y,x2,y2) {
@@ -34,6 +36,14 @@ module.exports = class Player {
      */
     checkCollision(a) {
         return (this.distance(this.x,this.y,a.x,a.y) - (this.r + a.r)<0)
+    }
+
+   rotate(x, y, angle) {
+        let rotatedVelocities = {
+            x:x * Math.cos(angle) -y * Math.sin(angle),
+            y:y * Math.sin(angle) -y * Math.cos(angle)
+        }
+        return rotatedVelocities
     }
 
     /**
