@@ -32,6 +32,12 @@ function updatePlayers() {
         }
     })
 
+    redrawPlayers()
+    
+    lastUpdate = Date.now()
+}
+
+function redrawPlayers() {
     content.entities.players.forEach(player => {
 
         //Player Update
@@ -41,7 +47,6 @@ function updatePlayers() {
 
         drawCircle(content.level.c ,player.x, player.y, player.r, player.color)
     });
-    lastUpdate = Date.now()
 }
 
 wss.onopen = () => {
