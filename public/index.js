@@ -19,11 +19,22 @@ content.level.canvas.focus()
 let lastUpdate = Date.now()
 setInterval(updatePlayers,10)
 function updatePlayers() {
+    
+    clearScreen()
+    checkCollisions()
+    redrawPlayers()
+    
+    lastUpdate = Date.now()
+}
+
+function clearScreen() {
     content.level.c.clearRect(
         0,0,
         content.level.canvas.width,
         content.level.canvas.height)
+}
 
+function checkCollisions() {
     content.entities.players.forEach(player => {
         if (checkCollision(content.entities.players[0], player)) {
             if (wss) {
@@ -31,7 +42,9 @@ function updatePlayers() {
             }
         }
     })
+}
 
+function redrawPlayers() {
     content.entities.players.forEach(player => {
 
         //Player Update
@@ -41,7 +54,6 @@ function updatePlayers() {
 
         drawCircle(content.level.c ,player.x, player.y, player.r, player.color)
     });
-    lastUpdate = Date.now()
 }
 
 wss.onopen = () => {

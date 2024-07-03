@@ -1,4 +1,6 @@
 {
     "server_port": 3001,
-    "socket_port": 3008
+    "socket_port": 3008,
+    "canvas_width": 1366,
+    "canvas_height": 645
 }

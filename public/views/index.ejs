@@ -7,7 +7,11 @@
     <title>King of the Hill</title>
 </head>
 <body>
-    <canvas tabindex='1' id="level" width="1366" height="645"></canvas>
+    <canvas tabindex='1' id="level" 
+        width="<%=data.server_data.canvas_width%>"
+        height="<%=data.server_data.canvas_height%>">
+    
+    </canvas>
     <%- include('./partials/end-panel.ejs') %>
     <script src="index.js" type="module" defer></script>
     <script>
