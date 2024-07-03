@@ -27,8 +27,8 @@ function load() {
         
         // Create Player
         let player = (new Player(
-            Math.floor(50+(Math.random()*(1366-100))),
-            Math.floor(50+(Math.random()*(645-100))),
+            Math.floor(50+(Math.random()*(server_data.canvas_width-100))),
+            Math.floor(50+(Math.random()*(server_data.canvas_height-100))),
             50))
 
         // Join Player and Stream
