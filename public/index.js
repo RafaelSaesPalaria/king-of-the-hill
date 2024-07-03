@@ -24,6 +24,13 @@ function updatePlayers() {
         content.level.canvas.width,
         content.level.canvas.height)
 
+    checkCollisions()
+    redrawPlayers()
+    
+    lastUpdate = Date.now()
+}
+
+function checkCollisions() {
     content.entities.players.forEach(player => {
         if (checkCollision(content.entities.players[0], player)) {
             if (wss) {
@@ -31,10 +38,6 @@ function updatePlayers() {
             }
         }
     })
-
-    redrawPlayers()
-    
-    lastUpdate = Date.now()
 }
 
 function redrawPlayers() {
