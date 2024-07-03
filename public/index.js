@@ -19,15 +19,19 @@ content.level.canvas.focus()
 let lastUpdate = Date.now()
 setInterval(updatePlayers,10)
 function updatePlayers() {
-    content.level.c.clearRect(
-        0,0,
-        content.level.canvas.width,
-        content.level.canvas.height)
-
+    
+    clearScreen()
     checkCollisions()
     redrawPlayers()
     
     lastUpdate = Date.now()
+}
+
+function clearScreen() {
+    content.level.c.clearRect(
+        0,0,
+        content.level.canvas.width,
+        content.level.canvas.height)
 }
 
 function checkCollisions() {
