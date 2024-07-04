@@ -75,6 +75,8 @@ wss.onopen = () => {
             lastUpdate = Date.now()
 
         
+        } else if (data["todo"]==="die") {
+            content.level.end_panel.style.display = 'block'
         }
     }
     moviment(content.level.canvas,wss)
