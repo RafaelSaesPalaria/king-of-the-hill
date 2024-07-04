@@ -6,6 +6,7 @@ import { drawCircle, checkCollision } from "./assets/utils.js"
 
 var content = {
     level: {
+        end_panel: document.querySelector('div#end-panel'),
         canvas : document.querySelector('canvas#level'),
         c : document.querySelector('canvas#level').getContext("2d")
     },
@@ -76,6 +77,7 @@ wss.onopen = () => {
 
         
         } else if (data["todo"]==="die") {
+            console.log('Death')
             content.level.end_panel.style.display = 'block'
         }
     }
