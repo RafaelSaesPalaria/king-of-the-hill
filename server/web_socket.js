@@ -91,6 +91,12 @@ function load() {
         })
 
         connections.forEach(con => {
+            if (isOutOfBorders(con.player)) {
+                con.stream.send(JSON.stringify({
+                    "todo":"die",
+                    "timestamp":Date.now(),
+                }))
+            }
             con.player.update(ms/10)
         })
     }
@@ -108,6 +114,13 @@ function load() {
                 "players":players.filter(player => player!==con.player)}))
         })
     }
+
+    function isOutOfBorders(player) {
+        return (
+            (player.x + player.r > server_data.canvas_width|| player.x + player.r < 0) ||
+            (player.y + player.r > server_data.canvas_height  || player.y + player.r < 0))
+    }
 }
+
 
 module.exports = {load, setData}
