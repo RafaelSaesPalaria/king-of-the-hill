@@ -3,10 +3,15 @@ const app = express()
 
 let server_data = undefined
 
+
 function setData(data) {
     server_data = data
 }
 
+/**
+ * @Called by the server init
+ * @Do Load the websocket to hold the server
+ */
 function load() {
     app.set('view engine','ejs')
     app.use(express.static('./public'))
