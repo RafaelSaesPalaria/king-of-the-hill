@@ -2,6 +2,11 @@ const ws = require('ws')
 
 let server_data = undefined
 
+/**
+ * @Called by the server init
+ * @Do Set the data of the server config into the code
+ * @param {*} data 
+ */
 function setData(data) {
     server_data = data
 }
