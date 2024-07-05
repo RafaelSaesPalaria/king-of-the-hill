@@ -11,6 +11,10 @@ function setData(data) {
     server_data = data
 }
 
+/**
+ * @Called by the server init
+ * @Do Load the websocket to hold the server
+ */
 function load() {
 
     let Player = require('../public/assets/entities.js')
