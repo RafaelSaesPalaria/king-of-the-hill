@@ -35,6 +35,10 @@ function clearScreen() {
         content.level.canvas.height)
 }
 
+/**
+ * @Called at the updatePlayers (every 10ms)
+ * @Do see if the another player is colliding with this player and send a message to the server
+ */
 function checkCollisions() {
     content.entities.players.forEach(player => {
         if (checkCollision(content.entities.players[0], player)) {
