@@ -82,6 +82,10 @@ function load() {
 
     })
 
+    /**
+     * @Called when the server receive a message from one of the players
+     * @Do check the collision of all the players, or if they are out of the map and then update their positions
+     */
     function updatePlayers() {
         let ms = Date.now() - lastUpdate
 
