@@ -49,6 +49,10 @@ function checkCollisions() {
     })
 }
 
+/**
+ * @Called at the updatePlayers (every 10ms)
+ * @Do Update the position of every player and redraw them
+ */
 function redrawPlayers() {
     content.entities.players.forEach(player => {
 
