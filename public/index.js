@@ -18,6 +18,10 @@ var content = {
 content.level.canvas.focus()
 
 let lastUpdate = Date.now()
+/**
+ * @Called At the start of the page
+ * @Do Update and redraw the positions of the players
+ */
 setInterval(updatePlayers,10)
 function updatePlayers() {
     
