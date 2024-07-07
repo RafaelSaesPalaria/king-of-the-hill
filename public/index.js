@@ -28,6 +28,10 @@ function updatePlayers() {
     lastUpdate = Date.now()
 }
 
+/**
+ * @Called when the player update
+ * @Do clear the canvas
+ */
 function clearScreen() {
     content.level.c.clearRect(
         0,0,
