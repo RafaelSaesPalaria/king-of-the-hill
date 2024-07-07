@@ -33,6 +33,13 @@ export function distance(x,y,x2,y2) {
     )
 }    
 
+/**
+ * @Called when the client check collisions at every 10ms
+ * @Do calculate if the player is colliding
+ * @param {Player} p1 Player1
+ * @param {Player} p2 Player2
+ * @returns if the player is colliding
+ */
 export function checkCollision(p1,p2) {
     if (p1!==p2) {
         return (distance(p1.x,p1.y,p2.x,p2.y) -
