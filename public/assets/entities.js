@@ -40,6 +40,14 @@ module.exports = class Player {
         return (this.distance(this.x,this.y,a.x,a.y) - (this.r + a.r)<0)
     }
 
+    /**
+     * @Called When a player collide
+     * @Do Calculate the collision rotation
+     * @param {Number} x position/velocity of the circle in the x axis
+     * @param {Number} y position/velocity of the circle in the y axis
+     * @param {Number} angle angle of collision
+     * @returns rotated velocities
+     */
    rotate(x, y, angle) {
         let rotatedVelocities = {
             x:x * Math.cos(angle) -y * Math.sin(angle),
