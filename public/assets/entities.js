@@ -48,7 +48,7 @@ module.exports = class Player {
 
     /**
      * 
-     * @param {*} a Another player 
+     * @param {Player} a Another player 
      */
     collide(a) {
         let xVelocityDiff = this.dx - a.dx
@@ -84,8 +84,9 @@ module.exports = class Player {
     }
 
     /**
-     * @Called -----------------------------
+     * @Called When the server update the players
      * @Do Change the position
+     * @param {Number} ms milliseconds
      */
     update(ms) {
         this.y+=this.dy*3*ms

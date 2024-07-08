@@ -1,9 +1,10 @@
 /**
  * 
- * @param {CanvasRenderingContext2D} c 
- * @param {*} x 
- * @param {*} y 
- * @param {*} r 
+ * @param {CanvasRenderingContext2D} c Context
+ * @param {Number} x X position of the circle
+ * @param {Number} y Y position of the circle
+ * @param {Number} r Radius of the circle
+ * @param {string} [color="blue"] Color of the circle, blue by default
  */
 export function drawCircle(c,x,y,r,color="blue") {
     c.beginPath()
