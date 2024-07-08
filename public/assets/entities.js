@@ -32,7 +32,9 @@ module.exports = class Player {
     }
 
     /**
-     * @param {*} a Another player 
+     * @Called At every gametick (10ms) when the client check collisions
+     * @Do Return if they are colliding
+     * @param {Player} a Another player 
      */
     checkCollision(a) {
         return (this.distance(this.x,this.y,a.x,a.y) - (this.r + a.r)<0)
