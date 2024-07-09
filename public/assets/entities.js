@@ -57,7 +57,8 @@ module.exports = class Player {
     }
 
     /**
-     * 
+     * @called when the server detect a collision
+     * @do change the directions of the balls
      * @param {Player} a Another player 
      */
     collide(a) {
