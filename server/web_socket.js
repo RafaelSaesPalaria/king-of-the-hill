@@ -128,6 +128,12 @@ function load() {
         })
     }
 
+    /**
+     * @called at every gametick
+     * @do check if the player is out of border
+     * @param {Player} player the player that will be checked
+     * @returns if the player is out of border 
+     */
     function isOutOfBorders(player) {
         return (
             (player.x + player.r > server_data.canvas_width|| player.x + player.r < 0) ||
